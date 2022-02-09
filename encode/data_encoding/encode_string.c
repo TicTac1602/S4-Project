@@ -82,18 +82,19 @@ size_t smallest_version(struct encdata *qr)
 void set_mode_indicator(struct encdata *qr)
 {
     qr->data = malloc(qr->nlen);
+    qr->data = memset(qr->data,0,qr->nlen);
     if (qr->data == NULL)
         err(EXIT_FAILURE, "mode_indicator: malloc()");
     char *ptr = qr->data;
     if (qr->mi == 1)
     {
-        *ptr = 0;
+        *ptr = '0';
         ptr++;
-        *ptr = 1;
+        *ptr = '1';
         ptr++;
-        *ptr = 0;
+        *ptr = '0';
         ptr++;
-        *ptr = 0;
+        *ptr = '0';
         ptr++;
     }
 }
@@ -106,9 +107,9 @@ void add_character_count_indicator(struct encdata *qr, size_t count_indicator)
     while (count_indicator > 0 && size >= 0)
     {
         if (size % 2 == 0)
-            *ptr = 0;
+            *ptr = '0';
         else
-            *ptr = 1;
+            *ptr = '1';
         size = size >> 1;
         count_indicator--;
         ptr--;
@@ -138,12 +139,25 @@ void __encode_byte(char *data, char c)
     while (i > 0 && c >= 0)
     {
         if (c % 2 == 0)
-            *data = 0;
+            *data = '0';
         else
-            *data = 1;
+            *data = '1';
         c = c >> 1;
         i--;
         data--;
+    }
+}
+
+void add_terminator(struct encdata *qr)
+{
+    size_t i = 4;
+    char *ptr = qr->data + qr->len;
+    while (qr->len < qr->nlen && i > 0)
+    {
+        *ptr = '0';
+        ptr++;
+        qr->len++;
+        i--;
     }
 }
 
@@ -152,7 +166,7 @@ void pad_bytes(struct encdata *qr)
     char *ptr = qr->data + qr->len;
     while ((qr->len) % 8 != 0)
     {
-        *ptr = 0;
+        *ptr = '0';
         ptr++;
         qr->len++;
     }
@@ -163,40 +177,40 @@ void pad_bytes(struct encdata *qr)
         qr->len += 8;
         if (state == 0)
         {
-            *ptr = 1;
+            *ptr = '1';
             ptr++;
-            *ptr = 1;
+            *ptr = '1';
             ptr++;
-            *ptr = 1;
+            *ptr = '1';
             ptr++;
-            *ptr = 0;
+            *ptr = '0';
             ptr++;
-            *ptr = 1;
+            *ptr = '1';
             ptr++;
-            *ptr = 1;
+            *ptr = '1';
             ptr++;
-            *ptr = 0;
+            *ptr = '0';
             ptr++;
-            *ptr = 0;
+            *ptr = '0';
             ptr++;
         }
         else
         {
-            *ptr = 0;
+            *ptr = '0';
             ptr++;
-            *ptr = 0;
+            *ptr = '0';
             ptr++;
-            *ptr = 0;
+            *ptr = '0';
             ptr++;
-            *ptr = 1;
+            *ptr = '1';
             ptr++;
-            *ptr = 0;
+            *ptr = '0';
             ptr++;
-            *ptr = 0;
+            *ptr = '0';
             ptr++;
-            *ptr = 0;
+            *ptr = '0';
             ptr++;
-            *ptr = 1;
+            *ptr = '1';
             ptr++;
         }
         state = (state + 1) % 2;
