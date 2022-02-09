@@ -1,4 +1,5 @@
 #include "encode_string.h"
+#include "polynomial.h"
 
 void print_struct(struct encdata *qr){
     printf("version = %d\n", qr->version);
@@ -18,5 +19,8 @@ int main(int argc,char *argv[]){
     char* s=argv[1] ;
     struct encdata *qr = data_encoding(s, "M");
     print_struct(qr);
+    // Encode Message polynomial
+    message_polynomial(qr);
+	
     return 1;
 }

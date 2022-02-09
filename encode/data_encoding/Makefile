@@ -2,7 +2,7 @@
 CC = gcc
 CFLAGS =-Wall -Wextra -Werror -std=c99 -O2 -g
 
-SRC = test.c encode_string.c
+SRC = test.c encode_string.c polynomial.c
 OBJ = ${SRC:.c=.o}
 DEP = ${SRC:.c=.d}
 
