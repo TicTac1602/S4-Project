@@ -26,23 +26,30 @@ void finder(char* mat, size_t size_p)
     __finder(mat, 0, size_p-7, size_p);
 }
 
-void __finder(char* , size_t i, size_t j, size_t size_p)
+void __finder(char* mat, size_t i, size_t j, size_t size_p)
 {
-    for(size_t x, x<=7, x++)
+    for(size_t x=0; x<7; x++)
     {
-        for(size_t y, y<=7, y++)
-        {
-            if(i == 0 || i == 7 || j == 0 || j == 7 ||
-            (2 <= i && i <= 5 && j>=2 && j <= 5))
+        for(size_t y=0; y<7; y++)
+        {	    
+	    
+			
+            if( x>=2 && x <= 4 && y>=2 && y <= 4)
             {
-                mat[(x+i)*size_p+y+j]=1;
+                mat[(x+i)*size_p+y+j]='1';
             }
+	    
+	    
+	    
+	    else{
+		    if(y == 0 || y == 6 || x == 0 || x == 6)
+			mat[(x+i)*size_p+y+j]='1'; 
 
-            else
-            {
-                mat[(x+i)*size_p+y+j]=0;
-            }
-
+	    
+	    		else
+			  mat[(x+i)*size_p+y+j]='0';
+	    }
+			    
 
         }
 
