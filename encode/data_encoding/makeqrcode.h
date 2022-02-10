@@ -5,8 +5,9 @@
 
 char *init_matrix(int version, size_t *size_p);
 
-void finderpath(struct encdata *qr, int mat[][], int i, int j):
+void finder(char* mat, size_t size_p);
 
+void __finder(char* , size_t i, size_t j, size_t size_p);
 
 
 

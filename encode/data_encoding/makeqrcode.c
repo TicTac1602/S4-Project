@@ -19,14 +19,35 @@ char *init_matrix(int version, size_t *size_p)
 } 
 
 
-void finderpath(struct encdata *qr, int mat[][], int i, int j)
+void finder(char* mat, size_t size_p)
 {
-    int V = qr->version;
+    __finder(mat, 0, 0, size_p);
+    __finder(mat, size_p-7, 0, size_p);
+    __finder(mat, 0, size_p-7, size_p);
+}
 
-    //first square
-    for (size_t i = 0; i < count; i++)
+void __finder(char* , size_t i, size_t j, size_t size_p)
+{
+    for(size_t x, x<=7, x++)
     {
-        break;
+        for(size_t y, y<=7, y++)
+        {
+            if(i == 0 || i == 7 || j == 0 || j == 7 ||
+            (2 <= i && i <= 5 && j>=2 && j <= 5))
+            {
+                mat[(x+i)*size_p+y+j]=1;
+            }
+
+            else
+            {
+                mat[(x+i)*size_p+y+j]=0;
+            }
+
+
+        }
+
     }
-    
+
+
+
 }
