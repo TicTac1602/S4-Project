@@ -50,7 +50,7 @@ int main(int argc,char *argv[]){
 
     size_t test1;
 
-	char* matrixtest = init_matrix(1, &test1);
+	char* matrixtest = init_matrix(5, &test1);
 
     print_matrix(matrixtest, &test1);
 
