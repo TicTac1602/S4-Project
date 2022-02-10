@@ -1,5 +1,6 @@
 #include "encode_string.h"
 #include "polynomial.h"
+#include "makeqrcode.h"
 
 void print_struct(struct encdata *qr){
     printf("version = %d\n", qr->version);
@@ -12,6 +13,31 @@ void print_struct(struct encdata *qr){
     //more later;
 }
 
+void print_matrix(char *matrix, size_t *size_p)
+{
+    printf("=================================================\n");
+    size_t size = *size_p;
+    for (size_t i = 0; i < *size_p; i++)
+    {
+        for (size_t j = 0; j < *size_p; j++)
+        {
+            if (matrix[i * size + j] == '0')
+                printf(" 0");
+            else if (matrix[i * size + j] == '1')
+            {
+                printf(" 1");
+            }
+            else
+            {
+                printf(" 2" );
+            }
+        }
+        printf("\n");
+    }
+    printf("=================================================\n");
+}
+
+
 int main(int argc,char *argv[]){
     if(argc != 2){
 	errx(EXIT_FAILURE,"Too few/much argument");
@@ -20,7 +46,12 @@ int main(int argc,char *argv[]){
     struct encdata *qr = data_encoding(s, "M");
     print_struct(qr);
     // Encode Message polynomial
-    message_polynomial(qr);
-	
+    //message_polynomial(qr);
+
+    size_t test1;
+
+	char* matrixtest = init_matrix(1, &test1);
+    print_matrix(matrixtest, test1)
+
     return 1;
 }
