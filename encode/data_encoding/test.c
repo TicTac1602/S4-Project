@@ -46,11 +46,19 @@ int main(int argc,char *argv[]){
     struct encdata *qr = data_encoding(s, "M");
     print_struct(qr);
     // Encode Message polynomial
-    //message_polynomial(qr);
+    int message[qr->nlen/8];
+    message_polynomial(qr,message);
+    //Encode Generator polynomial 
+    int generator[qr->ec];
+    generator_polynomial(qr->ec,generator); 
 
     size_t test1;
 
+<<<<<<< HEAD
+    char* matrixtest = init_matrix(1, &test1);
+=======
 	char* matrixtest = init_matrix(5, &test1);
+>>>>>>> 0b66a86c830c88f01c8fc92040353be25d929bb7
 
     print_matrix(matrixtest, &test1);
 

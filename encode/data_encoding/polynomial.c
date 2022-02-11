@@ -54,12 +54,36 @@ unsigned int bin_to_dec(char *data)
     return s;
 }
 
-void message_polynomial(struct encdata* qr){
-	int dec_data[qr->nlen/8];
+int* message_polynomial(struct encdata* qr,int* dec_data){
 	char* tmp=qr->data;
 	for(size_t i=0;i<qr->nlen/8;i++){
 		dec_data[i] = bin_to_dec(tmp);
-		tmp += 8;
-		printf("%d\n",dec_data[i]);
+		tmp += 8;		
 	}
+	return dec_data;
+}
+
+int* generator_polynomial(size_t error_codewords, int* gen_data){
+    char *line = NULL;
+    size_t buf_len = 0;
+    FILE *file = fopen("./generator", "r");
+    if (file == NULL)
+        errx(EXIT_FAILURE, "path doesn't exist");
+
+    while (getline(&line, &buf_len, file) >= 0)
+    {
+	char start[2];
+	sscanf(line,"%2c",start);
+	line+=2;
+	if((size_t)atoi(start) == error_codewords){
+		int red;		
+		for(size_t i=0; i<=error_codewords;i++){
+			sscanf(line,"%d ",&red);
+			line+=4;
+			gen_data[i] = red;
+			printf("%d\n",gen_data[i]);
+		}
+	}
+    }
+    return gen_data;
 }
