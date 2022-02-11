@@ -53,12 +53,7 @@ int main(int argc,char *argv[]){
     generator_polynomial(qr->ec,generator); 
 
     size_t test1;
-
-<<<<<<< HEAD
-    char* matrixtest = init_matrix(1, &test1);
-=======
-	char* matrixtest = init_matrix(5, &test1);
->>>>>>> 0b66a86c830c88f01c8fc92040353be25d929bb7
+    char* matrixtest = init_matrix(qr->version, &test1);
 
     print_matrix(matrixtest, &test1);
 
