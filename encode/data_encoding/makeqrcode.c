@@ -24,6 +24,42 @@ void finder(char* mat, size_t size_p)
     __finder(mat, 0, 0, size_p);
     __finder(mat, size_p-7, 0, size_p);
     __finder(mat, 0, size_p-7, size_p);
+
+    //separator
+
+    for(size_t y=8; y<size_p-8; y++)
+    {
+	size_t x= 6;
+	if(y%2==0)
+		mat[(size_p*y+x)]='1';
+
+	if(y%2==1)
+		mat[(size_p*y+x)]='0';	
+    }
+
+    for(size_t x=8; x<size_p-8; x++)
+    {
+	size_t y= 6;
+	if(x%2==0)
+		mat[(size_p*y+x)]='1';
+
+	if(x%2==1)
+		mat[(size_p*y+x)]='0';
+
+    }
+    for(size_t y=0; y<8; y++)
+    {
+	size_t x=7;
+	mat[(size_p*y+x)]='0';
+	mat[(size_p*x+y)]='0';
+	mat[size_p*x+y+size_p-8]='0';
+	mat[size_p*(y+size_p-8)+x]='0';
+    }
+
+    //dark module
+    //
+    mat[size_p*(size_p-8)+8]='1';
+
 }
 
 void __finder(char* mat, size_t i, size_t j, size_t size_p)
@@ -47,18 +83,8 @@ void __finder(char* mat, size_t i, size_t j, size_t size_p)
 	    }			    
         }
     }
-    /*
-    for(size_t x=0; x<8; x++)
-    {
-	for(size_t y=0; y<8; y++)
-	{
-		if( x == 7 || y == 7)
-			mat[(x+i)*size_p+y+j]='0'; 
-	}
-
-
-    }
-    */
+    //separator 
+    
    if( j == 0 && i == 0)
    {
     
@@ -73,31 +99,6 @@ void __finder(char* mat, size_t i, size_t j, size_t size_p)
 	mat[(x+i)*size_p+y+j]='0';
     }
    }
-   /*
-   else
-   {
-	   
-	if( j==0 && i == size_p-7)
-	{
-		for(size_t x = 0; x<8; x++)
-    			{
-			size_t y = size_p-8;
-			mat[(x+i)*size_p+y+j]='0';
-    			}
-    			for(size_t y = 0; y<8; y++)
-    			{	
-			size_t x = size_p-8;
-			mat[(x+i)*size_p+y+j]='0';
-    			}
-
-
-	}
-
-
-   }
-   */
-    
-
-
+   
 }
 
