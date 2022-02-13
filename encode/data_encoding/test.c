@@ -49,8 +49,8 @@ int main(int argc,char *argv[]){
     int message[qr->nlen/8];
     message_polynomial(qr,message);
     //Encode Generator polynomial 
-    int generator[qr->ec];
-    generator_polynomial(qr->ec,generator); 
+    //int generator[qr->ec];
+    //generator_polynomial(qr->ec,generator); 
 
     size_t test1;
     char* matrixtest = init_matrix(qr->version, &test1);
@@ -59,7 +59,12 @@ int main(int argc,char *argv[]){
 
     finder(matrixtest, test1);
 
+    alignement(qr->version, matrixtest,test1);
+
+
     print_matrix(matrixtest, &test1);
+
+
 
     return 1;
 }

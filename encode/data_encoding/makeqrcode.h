@@ -9,6 +9,10 @@ void finder(char* mat, size_t size_p);
 
 void __finder(char* , size_t i, size_t j, size_t size_p);
 
+void alignement(int version, char* mat, size_t size_p);
 
+void _align(int i, int j, char* mat, size_t size_p);
+
+void testpat(int i, int j, char* mat, size_t size_p);
 
 #endif
