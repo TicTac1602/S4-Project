@@ -43,25 +43,32 @@ int main(int argc,char *argv[]){
 	errx(EXIT_FAILURE,"Too few/much argument");
     }
     char* s=argv[1] ;
+    char c;
     struct encdata *qr = data_encoding(s, "M");
     print_struct(qr);
+    scanf("%c",&c);
     // Encode Message polynomial
     int message[qr->nlen/8];
-    message_polynomial(qr,message);
+    message_polynomial(qr,message); 
+    scanf("%c",&c);
     //Encode Generator polynomial 
-    //int generator[qr->ec];
-    //generator_polynomial(qr->ec,generator); 
-
+    int generator[qr->ec];
+    generator_polynomial(qr->ec,generator); 
+    scanf("%c",&c);
     size_t test1;
     char* matrixtest = init_matrix(qr->version, &test1);
-
     print_matrix(matrixtest, &test1);
-
+    scanf("%c",&c);
     finder(matrixtest, test1);
-
+    print_matrix(matrixtest, &test1);
+    scanf("%c",&c);
     alignement(qr->version, matrixtest,test1);
-
-
+    print_matrix(matrixtest, &test1);
+    scanf("%c",&c);
+    test1 = 0;
+    matrixtest = init_matrix(7,&test1);
+    finder(matrixtest, test1);
+    alignement(7, matrixtest,test1);
     print_matrix(matrixtest, &test1);
 
 
