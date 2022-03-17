@@ -47,13 +47,16 @@ int main(int argc,char *argv[]){
     struct encdata *qr = data_encoding(s, "M");
     print_struct(qr);
     scanf("%c",&c);
-    // Encode Message polynomial
-    int message[qr->nlen/8];
-    message_polynomial(qr,message); 
+    // Encode Message polynomial 
+    struct poly ** message = build_message_polynomial(qr);
+    printf("numbers of message polynomial needed : %ld \n",qr->block1+qr->block2); 
+    for(size_t i = 0 ; i<qr->block1+qr->block2;i++){
+	print_polynomial(message[i]);
+    }
     scanf("%c",&c);
     //Encode Generator polynomial 
-    int generator[qr->ec];
-    generator_polynomial(qr->ec,generator); 
+    struct poly* generator = build_generator_polynomial(qr->ec); 
+    print_polynomial(generator);
     scanf("%c",&c);
     size_t test1;
     char* matrixtest = init_matrix(qr->version, &test1);
