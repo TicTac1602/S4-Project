@@ -1,8 +1,8 @@
 # Makefile
 CC = gcc
-CFLAGS =-Wall -Wextra -Werror -std=c99 -O2 -g
+CFLAGS =-Wall -Wextra -std=c99 -O2 -g
 
-SRC = test.c encode_string.c polynomial.c makeqrcode.c
+SRC = test.c encode_string.c polynomial.c makeqrcode.c final_struct.c
 OBJ = ${SRC:.c=.o}
 DEP = ${SRC:.c=.d}
 
@@ -16,7 +16,5 @@ clean:
 	${RM} ${OBJ}   # remove object files
 	${RM} ${DEP}   # remove dependency files
 	${RM} test     # remove main program
-
--include ${DEP}
 
 # END

@@ -257,9 +257,11 @@ unsigned int bin_to_dec(char *data)
     unsigned int compt = 1;
     for (unsigned int i = 8; i > 0; i--)
     {
-        s += data[i - 1] * compt;
+	if(data[i-1] == '1'){
+		s+=compt;
+	}
         compt *= 2;
-        // s += data[i];
+        
     }
     return s;
 }
@@ -272,11 +274,7 @@ struct poly **build_message_polynomial(struct encdata *encode)
     size_t y = 0;
     for (size_t i = 0; i < encode->block1; i++) // Encode Group 1
     {
-        // y += (encode->group1 * 8);
-        message[i] =
-            _build_message_polynomial(encode->data + y, encode->group1);
-        // message[i] = _build_message_polynomial(encode->data +
-        // (i*encode->group1*8), encode->group1);
+        message[i] = _build_message_polynomial(encode->data + y, encode->group1);
         y += (encode->group1 * 8);
     }
 
@@ -286,8 +284,6 @@ struct poly **build_message_polynomial(struct encdata *encode)
             _build_message_polynomial(encode->data + y, encode->group2);
         y += encode->group2 * 8;
     }
-
-    // struct poly *gp = build_generator_polynomial(encode->ec);
     return message;
 }
 

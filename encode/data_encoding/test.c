@@ -1,6 +1,7 @@
 #include "encode_string.h"
 #include "polynomial.h"
 #include "makeqrcode.h"
+#include "final_struct.h"
 
 void print_struct(struct encdata *qr){
     printf("version = %d\n", qr->version);
@@ -8,7 +9,6 @@ void print_struct(struct encdata *qr){
     printf("size of input string = %lu\n", qr->size);
     printf("corection_level = %c\n", qr->correction_level);
     printf("length of data = %ld\n", qr->len);
-    printf("necessary length of data = %ld\n", qr->nlen);
     printf("data = %s\n", qr->data);
     //more later;
 }
@@ -47,17 +47,31 @@ int main(int argc,char *argv[]){
     struct encdata *qr = data_encoding(s, "M");
     print_struct(qr);
     scanf("%c",&c);
+
     // Encode Message polynomial 
     struct poly ** message = build_message_polynomial(qr);
     printf("numbers of message polynomial needed : %ld \n",qr->block1+qr->block2); 
-    for(size_t i = 0 ; i<qr->block1+qr->block2;i++){
+    for(size_t i = 0; i<qr->block1+qr->block2;i++){
 	print_polynomial(message[i]);
     }
     scanf("%c",&c);
+
     //Encode Generator polynomial 
     struct poly* generator = build_generator_polynomial(qr->ec); 
     print_polynomial(generator);
     scanf("%c",&c);
+
+    int* final = final_struct(qr);
+    size_t t = qr->block1+qr->block2;
+    size_t f = final_byte(qr->version);
+    size_t all = (qr->block1*qr->group1+qr->block2*qr->group2+t*qr->ec)*8+f;
+    printf("==============================Final data==============================\n\n");
+    for(size_t i=0;i<all;i++){
+	printf("%d",final[i]);
+    }
+   printf("\n\n=====================================================================\n\n");
+    scanf("%c",&c);
+
     size_t test1;
     char* matrixtest = init_matrix(qr->version, &test1);
     print_matrix(matrixtest, &test1);
