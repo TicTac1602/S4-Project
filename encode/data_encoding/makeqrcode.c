@@ -193,3 +193,7 @@ for(size_t x=0; x<5; x++)
         }
     }
 }
+
+void fill_matrix(int* data,size_t size){
+	
+}
