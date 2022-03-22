@@ -41,15 +41,10 @@ void print_matrix(char *matrix, size_t *size_p)
 }
 
 
-int main(int argc,char *argv[])
-{
-    if(argc != 2){
-	errx(EXIT_FAILURE,"Too few/much argument");
-    }
-    char* s=argv[1] ;
-
+int encode(char* string)
+{ 
     // Data encoding
-    struct encdata *qr = data_encoding(s, "M");
+    struct encdata *qr = data_encoding(string, "M");
     printf("================= Encode message =================\n");
 
     int *final = final_struct(qr);
@@ -97,4 +92,12 @@ int main(int argc,char *argv[])
     SDL_SaveBMP(surface, "out.bmp");
     SDL_FreeSurface(surface);
     return 0;
+}
+
+int main(int argc,char *argv[]){
+	if (argc == 2)
+		encode(argv[1]);
+	else 
+		printf("No good argument, try ./test 'my string'\n");
+	return 0;
 }

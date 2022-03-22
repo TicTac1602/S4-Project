@@ -48,7 +48,7 @@ size_t smallest_version(struct encdata *qr)
     size_t buf_len = 0;
     qr->version = 1;
 
-    FILE *file = fopen("./m_byte_mode", "r");
+    FILE *file = fopen("./data_encoding/m_byte_mode", "r");
     if (file == NULL)
         errx(EXIT_FAILURE, "path doesn't exist");
 
