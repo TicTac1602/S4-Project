@@ -46,14 +46,13 @@ int encode(char* string)
     // Data encoding
     struct encdata *qr = data_encoding(string, "M");
     printf("================= Encode message =================\n");
-
-    int *final = final_struct(qr);
     size_t t = qr->block1 + qr->block2;
     size_t f = final_byte(qr->version);
     size_t all =
         (qr->block1 * qr->group1 + qr->block2 * qr->group2 + t * qr->ec) * 8
         + f;
     print_struct(qr);
+    int *final = final_struct(qr);
     for (size_t i = 0; i < all; i++)
     {
         printf("%d", final[i]);
@@ -69,7 +68,7 @@ int encode(char* string)
     if (SDL_Init(SDL_INIT_VIDEO) == -1)
         errx(1, "Could not initialize SDL: %s.\n", SDL_GetError());
     //Create surface
-    SDL_Surface *surface = SDL_CreateRGBSurface(0,size_matrix,size_matrix,
+    SDL_Surface *surface = SDL_CreateRGBSurface(0,size_matrix*32,size_matrix*32,
             32, 0, 0, 0, 0);
     if (surface == NULL) {
         errx(1,"SDL_CreateRGBSurface() failed: %s\n", SDL_GetError());
@@ -77,15 +76,19 @@ int encode(char* string)
     }
     //Make surface all white
     SDL_FillRect(surface, NULL, SDL_MapRGB(surface->format, 255, 255, 255));
+    SDL_Rect rect;
+    
     //Lock the surface to set manually the dark spot
-    SDL_LockSurface(surface);
-
     for (size_t x = 0; x < size_matrix; x++){
-        for (size_t y = 0; y < size_matrix; y ++)
+        for (size_t y = 0; y < size_matrix; y++)
         {
             if (matrix[x * size_matrix + y] == '1')
             {
-                setPixel(surface, 0, 0, 0, x, y);
+                rect.x=32*x;
+		rect.y=32*y;
+		rect.w=32;
+		rect.h=32;
+		SDL_FillRect(surface,&rect,SDL_MapRGB(surface->format,0,0,0));
             }
         }
     }
