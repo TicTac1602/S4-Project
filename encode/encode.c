@@ -68,7 +68,8 @@ int encode(char* string)
     if (SDL_Init(SDL_INIT_VIDEO) == -1)
         errx(1, "Could not initialize SDL: %s.\n", SDL_GetError());
     //Create surface
-    SDL_Surface *surface = SDL_CreateRGBSurface(0,size_matrix*32,size_matrix*32,
+    int resolution = 10;
+    SDL_Surface *surface = SDL_CreateRGBSurface(0,size_matrix*resolution,size_matrix*resolution,
             32, 0, 0, 0, 0);
     if (surface == NULL) {
         errx(1,"SDL_CreateRGBSurface() failed: %s\n", SDL_GetError());
@@ -84,16 +85,21 @@ int encode(char* string)
         {
             if (matrix[x * size_matrix + y] == '1')
             {
-                rect.x=32*x;
-		rect.y=32*y;
-		rect.w=32;
-		rect.h=32;
+                rect.x=resolution*y;
+		rect.y=resolution*x;
+		rect.w=resolution;
+		rect.h=resolution;
 		SDL_FillRect(surface,&rect,SDL_MapRGB(surface->format,0,0,0));
             }
         }
     }
     SDL_SaveBMP(surface, "out.bmp");
     SDL_FreeSurface(surface);
+    free(matrix);
+    free(qr->data);
+    free(qr);
+    free(final);
+
     return 0;
 }
 

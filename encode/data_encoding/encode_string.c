@@ -121,7 +121,7 @@ void encode_input(struct encdata *qr, char *input)
 {
     if (qr->mi == 1)
     {
-        qr->data = realloc(qr->data, qr->len + qr->size * 8);
+        //qr->data = realloc(qr->data, qr->len + qr->size * 8);
         if (qr->data == NULL)
             err(EXIT_FAILURE, "encode_input: malloc()");
         for (size_t i = 0; i < qr->size; i++)
