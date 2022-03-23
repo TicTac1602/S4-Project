@@ -30,10 +30,15 @@ void print_matrix(char *matrix, size_t *size_p)
             {
                 printf(" 1");
             }
+            else if (matrix[i *size + j]=='3')
+            {
+                printf(" 3");
+            }
             else
             {
                 printf(" 2" );
             }
+            
         }
         printf("\n");
     }
@@ -63,7 +68,10 @@ int encode(char* string)
     char* matrix = init_matrix(qr->version, &size_matrix);
     finder(matrix, size_matrix);
     alignement(qr->version, matrix,size_matrix);
-     
+    reserved(qr->version, matrix, size_matrix);
+    fillmatrix(matrix, size_matrix, final, all);
+    print_matrix(matrix, &size_matrix);
+
     
     if (SDL_Init(SDL_INIT_VIDEO) == -1)
         errx(1, "Could not initialize SDL: %s.\n", SDL_GetError());
