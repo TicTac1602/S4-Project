@@ -41,10 +41,10 @@
           >
           <div class="contact_content">
             <a href="#about-content" class="clickable" id="projet">Le projet</a>
-            <a href="" class="clickable" id="chronologie">Chronologie</a>
-            <a href="" class="clickable" id="app-repo">Les librairies</a>
-            <a href="" class="clickable">L'équipe</a>
-            <a href="" class="clickable">Téléchargement</a>
+            <a href="#chronologie" class="clickable" id="">Chronologie</a>
+            <a href="#libs" class="clickable" id="app-repo">Les librairies</a>
+            <a href="#team" class="clickable">L'équipe</a>
+            <a href="#telecharger" class="clickable">Téléchargement</a>
             <a href="https://github.com/TicTac1602/S4-Project" class="clickable"
               ><ion-icon name="logo-github"></ion-icon
             ></a>
@@ -79,13 +79,13 @@
               >
             </li>
             <li>
-              <a href="" class="clickable" id="chronologie">Chronologie</a>
+              <a href="#chronologie" class="clickable" id="">Chronologie</a>
             </li>
             <li>
-              <a href="" class="clickable" id="app-repo">Les librairies</a>
+              <a href="#libs" class="clickable" id="app-repo">Les librairies</a>
             </li>
             <li>
-              <a href="" class="clickable">L'équipe</a>
+              <a href="#team" class="clickable">L'équipe</a>
             </li>
             <li>
               <a
@@ -108,7 +108,7 @@
             <img src="./images/Scene-1.png" />
           </div>
           <a href="#telecharger" class="btn">Telecharger</a>
-          <a href="./files/" download class="btn">Cahier des charges</a>
+          <a href="./files/Cahier_des_charges.pdf" download class="btn">Cahier des charges</a>
         </div>
       </header>
 
@@ -152,6 +152,26 @@
           </ul>
         </div>
       </section>
+      <hr>
+      <section id="team">
+        <h2>L'équipe Villejuif Project</h2>
+
+        <div class="flex-overflow">
+          <div class="team-member">
+            <h2 class="member">Emil TOULOUSE</h2>
+            <img src="./images/emil.jpg" alt="Photo de Emil TOULOUSE">
+          </div>
+          <div class="team-member">
+            <h2 class="member">Adam Marahoui</h2>
+            <img src="./images/adam.jpg" alt="Photo de Adam Marahoui">
+          </div>
+          <div class="team-member">
+            <h2 class="member">Samy Achache</h2>
+            <img src="./images/samy.jpg" alt="Photo de Samy Achache">
+          </div>
+        </div>
+      </section>
+      
       <section class="chronologie" id="chronologie">
         <h2>Chronologie du projet</h2>
         <div class="flex-overflow">
@@ -173,14 +193,14 @@
               <ion-icon name="book-outline"></ion-icon>
             </div>
             <h4 class="title">
-              <a href="" target="_blank"
+              <a href="./files/Cahier_des_charges.pdf" target="_blank"
                 >14/01/2022 : Remise des cahiers des charges</a
               >
             </h4>
             <p class="description">
               Nous avons pour devoir de rendre un
               <a
-                href="https://api.alexandregliganic.fr/folder/project404/Cahier_des_charges_Projet_S4.pdf"
+                href=""
                 target="_blank"
                 >cahier des charges</a
               >
@@ -206,15 +226,27 @@
               <ion-icon name="star-outline"></ion-icon>
             </div>
             <h4 class="title">
-              <a href="" target="_blank">14/02/2022 : Première soutenance</a>
+              <a href="./files/Rapport_Soutenance_1.pdf" target="_blank">14/02/2022 : Première soutenance</a>
             </h4>
             <p class="description">
-              Nous avons finalisé notre
-              <a href="" target="_blank">rapport de première soutenance</a>.
+              Nous avons finalisé notre rapport de première soutenance.
+            </p>
+          </div>
+          <div class="box">
+            <div class="icon" style="background: #e5fcff">
+              <ion-icon name="star-outline"></ion-icon>
+            </div>
+            <h4 class="title">
+              <a href="./files/Rapport_Soutenance_2.pdf" target="_blank">06/04/2022 : Seconde soutenance</a>
+            </h4>
+            <p class="description">
+              Nous avons finalisé notre rapport de seconde soutenance.
             </p>
           </div>
         </div>
       </section>
+
+
       <section id="worflow">
         <div class="section-tittle">
           <h2>Notre organisation de travail</h2>
@@ -224,7 +256,7 @@
           </h4>
         </div>
         <div class="section-content">
-          <img src="./images/conseil.jpg" />
+          <img src="./images/Work-From-Home-Jobs-5.png" />
           <div class="content">
             <p>
               Nous avons mis en place différents systèmes permettant de suivre
@@ -256,7 +288,9 @@
           </div>
         </div>
       </section>
-      <section class="chronologie" id="library">
+      
+
+      <section class="chronologie" id="libs">
         <h2>Les librairies utilisées</h2>
         <div class="flex-overflow">
           <div class="box">
@@ -291,8 +325,10 @@
           </div>
         </div>
       </section>
+
+
       <section id="call-to-action" class="call-to-action">
-        <div class="container">
+        <div id="telecharger" class="container">
           <div class="row">
             <div>
               <h3 class="cta-title">Comment utiliser notre projet?</h3>
@@ -310,6 +346,8 @@
           </div>
         </div>
       </section>
+
+
       <section id="telechargement" class="telechargement">
         <div class="container">
           <header class="section-header">
