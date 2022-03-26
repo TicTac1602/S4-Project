@@ -77,7 +77,8 @@ int encode(char* string)
         errx(1, "Could not initialize SDL: %s.\n", SDL_GetError());
     //Create surface
     int resolution = 10;
-    SDL_Surface *surface = SDL_CreateRGBSurface(0,size_matrix*resolution+8,size_matrix*resolution+8,
+    int padding = 4*resolution;
+    SDL_Surface *surface = SDL_CreateRGBSurface(0,size_matrix*resolution+2*padding,size_matrix*resolution+2*padding,
             32, 0, 0, 0, 0);
     if (surface == NULL) {
         errx(1,"SDL_CreateRGBSurface() failed: %s\n", SDL_GetError());
@@ -93,19 +94,19 @@ int encode(char* string)
         {
             if (matrix[x * size_matrix + y] == '1')
             {
-                rect.x=resolution*y+4;
-		rect.y=resolution*x+4;
+                rect.x=resolution*y+padding;
+		rect.y=resolution*x+padding;
 		rect.w=resolution;
 		rect.h=resolution;
 		SDL_FillRect(surface,&rect,SDL_MapRGB(surface->format,0,0,0));
             }
             else if (matrix[x * size_matrix + y] == '3')
             {
-                rect.x=resolution*y+4;
-		    rect.y=resolution*x+4;
-            rect.w=resolution;
-            rect.h=resolution;
-            SDL_FillRect(surface,&rect,SDL_MapRGB(surface->format,205,205,205));
+                rect.x=resolution*y+padding;
+		rect.y=resolution*x+padding;
+            	rect.w=resolution;
+            	rect.h=resolution;
+            	SDL_FillRect(surface,&rect,SDL_MapRGB(surface->format,205,205,205));
             }
         }
     }
