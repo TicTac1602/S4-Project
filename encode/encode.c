@@ -71,6 +71,11 @@ int encode(char* string)
     reserved(qr->version, matrix, size_matrix);
     fillmatrix(matrix, size_matrix, final, all);
     print_matrix(matrix, &size_matrix);
+    struct mask* mask = init_mask(matrix,size_matrix);
+    int vmask = maskfinal(&matrix,size_matrix,mask,qr->version);
+    reserved_area(matrix,qr->version,vmask,size_matrix);
+
+    print_matrix(matrix,&size_matrix);
 
     
     if (SDL_Init(SDL_INIT_VIDEO) == -1)
