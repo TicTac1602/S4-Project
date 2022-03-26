@@ -12,6 +12,7 @@
 #include "./data_encoding/polynomial.h"
 #include "./data_encoding/makeqrcode.h"
 #include "./data_encoding/final_struct.h"
+#include "./data_encoding/qrmask.h"
 
 void setPixel(SDL_Surface *surface, Uint8 r, Uint8 g, Uint8 b, size_t x,
               size_t y);

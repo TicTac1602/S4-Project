@@ -116,6 +116,23 @@ void alignement(int version, char* mat, size_t size_p){
             int a = tab[version][i];
             int b = tab[version][j];
 
+            int size = (int)size_p;
+
+            //_align(a, b, mat, size_p);
+
+            if(a == 6 && b == 6)
+                continue;
+
+            else if(a == size-7 && b == 6)
+                continue;
+
+            else if (a == 6 && b == size-7)
+                continue;
+
+            else
+                _align(a, b, mat, size_p);
+
+
             /*_align(a, b, mat, size_p);
 
             if(mat[size_p*b+a-2]=='2' && mat[size_p*b+a-1]=='2' && mat[size_p*b+a+1]=='2' && mat[size_p*b+a+2]=='2' && mat[size_p*b+a]=='2')
@@ -140,8 +157,11 @@ void alignement(int version, char* mat, size_t size_p){
             //int size;
             //size = (int) size_p;
 
-            if( mat[size_p*(a+2)+(b+2)] =='2' && mat[size_p*(a+2)+(b-2)] == '2' && mat[size_p*(a-2)+(b-2)] =='2' && mat[size_p*(a-2)+(b+2)] == '2')
-                _align(a, b, mat, size_p);
+
+            //MARCHE DE BASE 
+
+            //if( mat[size_p*(a+2)+(b+2)] =='2' && mat[size_p*(a+2)+(b-2)] == '2' && mat[size_p*(a-2)+(b-2)] =='2' && mat[size_p*(a-2)+(b+2)] == '2')
+            //    _align(a, b, mat, size_p);
 
             /*else
             {
@@ -151,6 +171,7 @@ void alignement(int version, char* mat, size_t size_p){
 
             }	
             */
+            
         }	
     }
 
@@ -188,6 +209,9 @@ void _align(int i, int j, char* mat, size_t size_p){
 
 void reserved(int version, char* matrix, size_t size){
 
+    if(version<= 7)
+    {
+
 		matrix[8 * size + 0] = '3';
         matrix[8 * size + 1] = '3';
         matrix[8 * size + 2] = '3';
@@ -221,8 +245,9 @@ void reserved(int version, char* matrix, size_t size){
         matrix[8 * size + size - 6] = '3';
         matrix[8 * size + size - 7] = '3';
         matrix[8 * size + size - 8] = '3';
+    }
 
-	if(version >= 7 )
+	else if(version >= 7 )
 	{
 
 		for (size_t x = size - 11; x < size - 8; x++)
@@ -241,6 +266,170 @@ void reserved(int version, char* matrix, size_t size){
 		}
 	}
 }
+
+void apply_more7(char *matrix, char s[], size_t size)
+{
+    size_t k = 17;
+    for (size_t j = 0; j <= 5; j++)
+    {
+        for (size_t i = size - 11; i <= size - 9; i++)
+        {
+            matrix[i * size + j] = s[k]+48;
+            k--;
+        }
+    }
+
+    k = 17;
+    for (size_t i = 0; i <= 5; i++)
+    {
+        for (size_t j = size - 11; j <= size - 9; j++)
+        {
+            matrix[i * size + j] = s[k]+48;
+            k--;
+        }
+    }
+}
+
+void apply_less6(char *matrix, char s[], size_t size)
+{
+    size_t k = 0;
+
+    matrix[8 * size + 0] = s[k]+48;
+    k++;
+    matrix[8 * size + 1] = s[k]+48;
+    k++;
+    matrix[8 * size + 2] = s[k]+48;
+    k++;
+    matrix[8 * size + 3] = s[k]+48;
+    k++;
+    matrix[8 * size + 4] = s[k]+48;
+    k++;
+    matrix[8 * size + 5] = s[k]+48;
+    k++;
+    matrix[8 * size + 7] = s[k]+48;
+    k++;
+    matrix[8 * size + 8] = s[k]+48;
+    k++;
+
+    matrix[7 * size + 8] = s[k]+48;
+    k++;
+    matrix[5 * size + 8] = s[k]+48;
+    k++;
+    matrix[4 * size + 8] = s[k]+48;
+    k++;
+    matrix[3 * size + 8] = s[k]+48;
+    k++;
+    matrix[2 * size + 8] = s[k]+48;
+    k++;
+    matrix[1 * size + 8] = s[k]+48;
+    k++;
+    matrix[0 * size + 8] = s[k]+48;
+    k++;
+
+    k = 0;
+    matrix[(size - 7) * size + 8] = s[k]+48;
+    k++;
+    matrix[(size - 6) * size + 8] = s[k]+48;
+    k++;
+    matrix[(size - 5) * size + 8] = s[k]+48;
+    k++;
+    matrix[(size - 4) * size + 8] = s[k]+48;
+    k++;
+    matrix[(size - 3) * size + 8] = s[k]+48;
+    k++;
+    matrix[(size - 2) * size + 8] = s[k]+48;
+    k++;
+    matrix[(size - 1) * size + 8] = s[k]+48;
+    k++;
+
+    matrix[8 * size + size - 1] = s[k]+48;
+    k++;
+    matrix[8 * size + size - 2] = s[k]+48;
+    k++;
+    matrix[8 * size + size - 3] = s[k]+48;
+    k++;
+    matrix[8 * size + size - 4] = s[k]+48;
+    k++;
+    matrix[8 * size + size - 5] = s[k]+48;
+    k++;
+    matrix[8 * size + size - 6] = s[k]+48;
+    k++;
+    matrix[8 * size + size - 7] = s[k]+48;
+    k++;
+    matrix[8 * size + size - 8] = s[k]+48;
+}
+
+
+void reserved_area(char *m, int version, int mask, size_t size)
+{
+    if (version < 7)
+    {
+        if (mask == 0)
+        {
+            char s[] = { 1, 0, 1, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0 };
+            apply_less6(m, s, size);
+        }
+        else if (mask == 1)
+        {
+            char s[] = { 1, 0, 1, 0, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 1 };
+            apply_less6(m, s, size);
+        }
+        else if (mask == 2)
+        {
+            char s[] = { 1, 0, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 0, 0 };
+            apply_less6(m, s, size);
+        }
+        else if (mask == 3)
+        {
+            char s[] = { 1, 0, 1, 1, 0, 1, 1, 0, 1, 0, 0, 1, 0, 1, 1 };
+            apply_less6(m, s, size);
+        }
+        else if (mask == 4)
+        {
+            char s[] = { 1, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 1, 0, 0, 1 };
+            apply_less6(m, s, size);
+        }
+        else if (mask == 5)
+        {
+            char s[] = { 1, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 1, 1, 1, 0 };
+            apply_less6(m, s, size);
+        }
+        else if (mask == 6)
+        {
+            char s[] = { 1, 0, 0, 1, 1, 1, 1, 1, 0, 0, 1, 0, 1, 1, 1 };
+            apply_less6(m, s, size);
+        }
+        else
+        {
+            char s[] = { 1, 0, 0, 1, 0, 1, 0, 1, 0, 1, 0, 0, 0, 0, 0 };
+            apply_less6(m, s, size);
+        }
+    }
+    else
+    {
+        if (version == 7)
+        {
+            char s[] = { 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 1, 0, 0, 1, 0, 1, 0, 0 };
+            apply_more7(m, s, size);
+        }
+        else if (version == 8)
+        {
+            char s[] = { 0, 0, 1, 0, 0, 0, 0, 1, 0, 1, 1, 0, 1, 1, 1, 1, 0, 0 };
+            apply_more7(m, s, size);
+        }
+        else if (version == 9)
+        {
+            char s[] = { 0, 0, 1, 0, 0, 1, 1, 0, 1, 0, 1, 0, 0, 1, 1, 0, 0, 1 };
+            apply_more7(m, s, size);
+        }
+        else if (version == 10)
+        {
+            char s[] = { 0, 0, 1, 0, 1, 0, 0, 1, 0, 0, 1, 1, 0, 1, 0, 0, 1, 1 };
+            apply_more7(m, s, size);
+        }
+    }
+}
+
 
 
 void upward_placement(char *matrix, size_t size, int *code, size_t *index,size_t *x, size_t *y){

@@ -19,4 +19,7 @@ void reserved(int version, char* matrix, size_t size);
 
 void fillmatrix(char *matrix, size_t size, int *code, size_t enc);
 
+void reserved_area(char *m, int version, int mask, size_t size);
+
+
 #endif
