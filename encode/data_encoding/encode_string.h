@@ -66,12 +66,12 @@ int check_input(char *input);
 // Update the data field in qr.
 void encode_input(struct encdata *qr, char *input);
 
+// Add the terminator into the data field.
+void add_terminator(struct encdata *qr);
+
 // Encode the input text in byte mode (ISO-8859-1).
 // Then update the the data field in qr.
 void __encode_byte(char *data, char c);
-
-// Add the terminator into the data field.
-void add_terminator(struct encdata *qr);
 
 // Add the character count indicator in the data field.
 void add_character_count_indicator(struct encdata *qr, size_t count_indicator);

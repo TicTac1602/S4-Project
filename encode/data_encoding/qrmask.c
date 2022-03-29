@@ -40,7 +40,7 @@ struct mask *init_mask(char *qr, size_t size)
 
     for (size_t i = 0; i < size * size; i++)
     {
-        if (qr[i] == 3)
+        if (qr[i] == '3')
         {
             mask->mask0[i] = '0';
             mask->mask1[i] = '0';

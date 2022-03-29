@@ -209,9 +209,8 @@ void _align(int i, int j, char* mat, size_t size_p){
 
 void reserved(int version, char* matrix, size_t size){
 
-    if(version<= 7)
+    if(version < 7)
     {
-
 		matrix[8 * size + 0] = '3';
         matrix[8 * size + 1] = '3';
         matrix[8 * size + 2] = '3';
@@ -247,7 +246,8 @@ void reserved(int version, char* matrix, size_t size){
         matrix[8 * size + size - 8] = '3';
     }
 
-	else if(version >= 7 )
+
+	if(version >= 7 )
 	{
 
 		for (size_t x = size - 11; x < size - 8; x++)

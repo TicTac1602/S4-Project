@@ -72,7 +72,7 @@ int encode(char* string)
     fillmatrix(matrix, size_matrix, final, all);
     print_matrix(matrix, &size_matrix);
     struct mask* mask = init_mask(matrix,size_matrix);
-    int vmask = maskfinal(&matrix,size_matrix,mask,qr->version);
+    int vmask = mask_final(&matrix,size_matrix,mask,qr->version);
     reserved_area(matrix,qr->version,vmask,size_matrix);
 
     print_matrix(matrix,&size_matrix);
