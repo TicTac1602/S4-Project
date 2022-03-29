@@ -114,6 +114,11 @@ void add_character_count_indicator(struct encdata *qr, size_t count_indicator)
         count_indicator--;
         ptr--;
     }
+    while(count_indicator>0){
+	*ptr='0';
+	count_indicator--;
+	ptr--;
+    }
     qr->len += tmp;
 }
 
@@ -145,6 +150,11 @@ void __encode_byte(char *data, char c)
         c = c >> 1;
         i--;
         data--;
+    }
+    while(i>0){
+	*data='0';
+	i--;
+	data--;
     }
 }
 
