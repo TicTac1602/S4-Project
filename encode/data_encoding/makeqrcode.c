@@ -272,7 +272,7 @@ void apply_more7(char *matrix, char s[], size_t size)
     size_t k = 17;
     for (size_t j = 0; j <= 5; j++)
     {
-        for (size_t i = size - 11; i <= size - 9; i++)
+        for (size_t i = size - 11; i < size - 8; i++)
         {
             matrix[i * size + j] = s[k]+48;
             k--;
@@ -282,7 +282,7 @@ void apply_more7(char *matrix, char s[], size_t size)
     k = 17;
     for (size_t i = 0; i <= 5; i++)
     {
-        for (size_t j = size - 11; j <= size - 9; j++)
+        for (size_t j = size - 11; j < size - 8; j++)
         {
             matrix[i * size + j] = s[k]+48;
             k--;
