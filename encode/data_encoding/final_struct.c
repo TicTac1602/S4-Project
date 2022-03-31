@@ -17,15 +17,13 @@ int *final_struct(struct encdata* encode)
 
     // Encode Generator polynomial
     struct poly *generator = build_generator_polynomial(encode->ec);
-    // print_polynomial(generator);
 
     // Encode Error correction
     size_t t = encode->block1 + encode->block2; // size of array
 
     int *ec[t];
     for (size_t i = 0; i < t; i++)
-    {
-        // print_polynomial(message[i]);
+    { 
         ec[i] = division(message[i], generator, encode->ec);
 	printf("Error code value : %d\n\n",*ec[i]);
     }
@@ -115,7 +113,7 @@ size_t final_byte(size_t v)
 
     while (v != 0)
     {
-        getline(&line, &buf_len, file);
+        ssize_t line_len = getline(&line, &buf_len, file);
         v--;
     }
 
