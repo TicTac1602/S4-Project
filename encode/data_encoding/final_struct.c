@@ -108,7 +108,7 @@ size_t final_byte(size_t v)
 {
     char *line = NULL;
     size_t buf_len = 0;
-    FILE *file = fopen("./data_encoding/final_byte", "r");
+    FILE *file = fopen("./encode/data_encoding/final_byte", "r");
     size_t byte = 0;
 
     while (v != 0)

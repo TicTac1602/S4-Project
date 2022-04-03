@@ -1,11 +1,12 @@
 # Makefile
+CPPFLAGS = `pkg-config --cflags sdl2` -MMD
 CC = gcc
-CPPFLAGS=`pkg-config gtk+-3.0 --cflags`
-CFLAGS = -Wall -Wextra -std=c99 -O2 -g 
-LDLIBS = `pkg-config gtk+-3.0 --libs`
+CFLAGS = `pkg-config --cflags gtk+-3.0` -Wall -Wextra -std=c99 -O2 -g
+LDFLAGS =
+LDLIBS =` pkg-config --libs sdl2 gtk+-3.0` -lSDL2 -lSDL2_image -lm
 
 
-SRC = main.c glade/interface.c encode/encode.c data_encoding/encode_string.c data_encoding/polynomial.c data_encoding/final_struct.c data_encoding/makeqrcode.c data_encoding/qrmask.c
+SRC = main.c glade/interface.c encode/encode.c encode/data_encoding/encode_string.c encode/data_encoding/polynomial.c encode/data_encoding/final_struct.c encode/data_encoding/makeqrcode.c encode/data_encoding/qrmask.c
 
 OBJ = ${SRC:.c=.o}
 DEP = ${SRC:.c=.d}
@@ -20,6 +21,7 @@ clean:
 	${RM} ${OBJ}   # remove object files
 	${RM} ${DEP}   # remove dependency files
 	${RM} main     # remove main program
+	${RM} out.bmp
 
 # END
 

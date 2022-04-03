@@ -125,6 +125,8 @@ int encode(char* string)
     return 0;
 }
 
+
+/*
 int main(int argc,char *argv[]){
 	if (argc == 2)
 		encode(argv[1]);
@@ -132,3 +134,4 @@ int main(int argc,char *argv[]){
 		printf("No good argument, try ./test 'my string'\n");
 	return 0;
 }
+*/
