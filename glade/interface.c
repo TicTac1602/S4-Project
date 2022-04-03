@@ -1,15 +1,5 @@
-#include <stdlib.h>
-#include <stdio.h>
-#include <gtk/gtk.h>
+#include "interface.h"
 
-
-typedef struct fct1
-{
-    GtkWidget * entry;
-    GtkWidget * label;
-    GtkWidget * encode_image;
-
-} fct1;
 
 void generate(GtkButton * button, gpointer data)
 {
@@ -69,6 +59,21 @@ void createwindow(GtkApplication * app, gpointer data)
     gtk_main();
 }
 
+int app (int argumentcount, char * argument[], )
+{
+    GtkApplication * app;
+    app = gtk_application_new("test.com", G_APPLICATION_FLAGS_NONE);
+    g_signal_connect(app, "activate", G_CALLBACK(createwindow), NULL);
+
+    int status = return g_application_run(G_APPLICATION(app),argumentcount, argument);
+
+    g_object_unref(app);
+    return status;
+
+
+}
+/*
+
 int main(int argc, char *argv[])
 {
 
@@ -84,3 +89,4 @@ g_object_unref(app);
 return status;
 
 }
+*/
