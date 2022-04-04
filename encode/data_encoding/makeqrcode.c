@@ -327,36 +327,36 @@ void apply_less6(char *matrix, char s[], size_t size)
     k++;
 
     k = 0;
-    matrix[(size - 7) * size + 8] = s[k]+48;
-    k++;
-    matrix[(size - 6) * size + 8] = s[k]+48;
-    k++;
-    matrix[(size - 5) * size + 8] = s[k]+48;
-    k++;
-    matrix[(size - 4) * size + 8] = s[k]+48;
-    k++;
-    matrix[(size - 3) * size + 8] = s[k]+48;
+    matrix[(size - 1) * size + 8] = s[k]+48;
     k++;
     matrix[(size - 2) * size + 8] = s[k]+48;
     k++;
-    matrix[(size - 1) * size + 8] = s[k]+48;
+    matrix[(size - 3) * size + 8] = s[k]+48;
+    k++;
+    matrix[(size - 4) * size + 8] = s[k]+48;
+    k++;
+    matrix[(size - 5) * size + 8] = s[k]+48;
+    k++;
+    matrix[(size - 6) * size + 8] = s[k]+48;
+    k++;
+    matrix[(size - 7) * size + 8] = s[k]+48;
     k++;
 
-    matrix[8 * size + size - 1] = s[k]+48;
-    k++;
-    matrix[8 * size + size - 2] = s[k]+48;
-    k++;
-    matrix[8 * size + size - 3] = s[k]+48;
-    k++;
-    matrix[8 * size + size - 4] = s[k]+48;
-    k++;
-    matrix[8 * size + size - 5] = s[k]+48;
-    k++;
-    matrix[8 * size + size - 6] = s[k]+48;
+    matrix[8 * size + size - 8] = s[k]+48;
     k++;
     matrix[8 * size + size - 7] = s[k]+48;
     k++;
-    matrix[8 * size + size - 8] = s[k]+48;
+    matrix[8 * size + size - 6] = s[k]+48;
+    k++;
+    matrix[8 * size + size - 5] = s[k]+48;
+    k++;
+    matrix[8 * size + size - 4] = s[k]+48;
+    k++;
+    matrix[8 * size + size - 3] = s[k]+48;
+    k++;
+    matrix[8 * size + size - 2] = s[k]+48;
+    k++;
+    matrix[8 * size + size - 1] = s[k]+48;
 }
 
 
