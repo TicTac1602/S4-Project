@@ -48,8 +48,8 @@
             <property name="stock">gtk-discard</property>
           </object>
           <packing>
-            <property name="x">510</property>
-            <property name="y">287</property>
+            <property name="x">483</property>
+            <property name="y">192</property>
           </packing>
         </child>
         <child>
