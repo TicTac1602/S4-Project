@@ -66,4 +66,5 @@ int main(){
 		}
 	}
 	print_matrix(matrix,&matrix_size);
+	free(matrix);
 }
