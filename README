@@ -1,0 +1,14 @@
+To use the decode project:
+
+Include the decode.h file (and comment the main function of the decode.c file)
+
+Feel free to test the function with all the printfs and the pause() function,
+If you want, you can comment/delete all the printfs and pause() calls.
+
+Init the matrix with either "initFromFile" function, or "initFromChar" function.
+
+call the decode() function.
+
+the decoded message is stored in the char* 'message' variable.
+
+then, when you're done, call the freeDecodeAll() function to free all memory allocated variables.
