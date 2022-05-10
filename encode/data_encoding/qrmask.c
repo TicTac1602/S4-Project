@@ -85,7 +85,7 @@ void apply_mask(struct mask *mask, char *m, size_t size,int version)
             {
                 mask->mask2[i * size + j] = ((m[i * size + j] + 1) % 2)+48;
             }
-            if ((i + j) % 3)
+            if ((i + j) % 3 == 0)
             {
                 mask->mask3[i * size + j] = ((m[i * size + j] + 1) % 2)+48;
             }
