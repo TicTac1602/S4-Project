@@ -3,6 +3,12 @@
 #include <math.h>
 #include <err.h>
 #include <string.h>
+#include <SDL2/SDL.h>
+#include <SDL2/SDL_image.h>
+
+#include "../pre-processing/img_operation.h"
+#include "../pre-processing/load.h"
+
 
 #include "variables.h"
 #include "decode.h"
@@ -31,7 +37,7 @@ void initWithChar(char* charMatrix, size_t len)
     {
         matrix[y] = malloc(sizeof(int) * N);
         for (size_t x = 0; x < N; x++)
-            matrix[y][x] = charMatrix[y * N + x] - '0';
+            matrix[y][x] = (int)charMatrix[y * N + x] - '0';
     }
 
     printf("Loading done !\n");
@@ -551,15 +557,50 @@ void decode()
 
 int main()
 {
-    initWithFile("data/v3.txt");
+    SDL_Surface* img = load_image("out.bmp");
+    size_t res = find_resolution(img);
+    int start_x,start_y;
+    SDL_LockSurface(img);
+    find_first_black(img,&start_x,&start_y);
+    SDL_UnlockSurface(img);
+    size_t matrix_size = (img->w-(start_x))/res;
+
+    //printf("Resolution of a square: %ld\nCoordinates of first black pixel: %d - %d \nSize: %ld \n ",res,start_x,start_y,matrix_size);
+
+    char* matrix = malloc(sizeof(char) * matrix_size * matrix_size);
+    if(matrix == NULL){
+            return 1;
+    }
+
+    SDL_Color rgb;
+
+    for(int i=start_x; i< ((img->w)-start_x);i+=res){
+            for(int j=start_y; j< ((img->h)-start_y);j+=res){
+                    Uint32 data = getpixel(img,i,j);
+                    SDL_GetRGB(data,img->format,&rgb.r,&rgb.g,&rgb.b);
+                    if(rgb.r+rgb.g+rgb.b == 0){
+                            matrix[((j-start_x)/res)*matrix_size + ((i-start_y)/res)]='1';
+                    }
+                    else{
+                            matrix[((j-start_x)/res)*matrix_size + ((i-start_y)/res)]='0';
+                    }
+            }
+    }
+    //print_matrix(matrix,&matrix_size);
+    
+
+    //initWithFile("data/v3.txt");
     // or
-    //initWithChar(charMatrix, len);
+
+    initWithChar(matrix, matrix_size * matrix_size);
 
     decode();
 
-    printf("The returned char* is %s \n", message);
+    //printf("The returned char* is %s \n", message);
 
     freeDecodeAll();
+
+    free(matrix);
 
     return 0;
 }
