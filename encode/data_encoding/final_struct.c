@@ -114,6 +114,9 @@ size_t final_byte(size_t v)
     while (v != 0)
     {
         ssize_t line_len = getline(&line, &buf_len, file);
+	if(line_len == -1){
+		errx(1,"Can't read this line");
+	}
         v--;
     }
 
