@@ -14,7 +14,7 @@ GtkWidget* decode_box_gauche;
 GtkWidget* decode_text;
 char * path_image;
 
-
+//ancienne version
 
 /*
 void generate(GtkButton * button, gpointer data)
@@ -94,16 +94,31 @@ void f_encode()
 	
 	int res = encode(encode_data);
 	
-	if (encode_image != NULL)
-		gtk_widget_destroy(encode_image);
+	if(*encode_data)
+	{
 	
-	encode_image = gtk_image_new_from_file("out.bmp");
+		if (encode_image != NULL)
+		{
+			gtk_widget_destroy(encode_image);
+		}
 	
-	gtk_container_add(GTK_CONTAINER (encode_box_droite), encode_image);
+		encode_image = gtk_image_new_from_file("out.bmp");
+	
+		gtk_container_add(GTK_CONTAINER (encode_box_droite), encode_image);
+		gtk_widget_set_margin_top(encode_box_droite, 70);
+	
+		gtk_widget_show_all(encode_window);
+	
+		gtk_label_set_text(GTK_LABEL(encode_label), "QR-Code genéré !");
+}
+
+else
+{
+	gtk_label_set_text(GTK_LABEL(encode_label), "Aucune donnee n'a ete encodee");
 	
 	gtk_widget_show_all(encode_window);
-	
-	gtk_label_set_text(GTK_LABEL(encode_label), "QR-Code genéré !");
+}
+
 	
 }
 
@@ -163,6 +178,8 @@ void create_encode()
     encode_window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
     gtk_window_maximize(GTK_WINDOW(encode_window));
     
+    encode_label = gtk_label_new("Texte à convertir");
+    
     GtkWidget * encode_box_gauche = gtk_box_new(GTK_ORIENTATION_VERTICAL, 50);
   
     encode_box_droite = gtk_box_new(GTK_ORIENTATION_VERTICAL, 1);
@@ -174,24 +191,17 @@ void create_encode()
     
     encode_entry =	gtk_entry_new();
     
-    encode_label = gtk_label_new("Texte à convertir");
-    
-    gtk_container_add(GTK_CONTAINER (encode_box_gauche), encode_label);
-    
     GtkWidget * encode_bouton_retour = gtk_button_new_with_label("Page d'accueil");
     
     //ajout des widgets dans les boxs
     
-    gtk_container_add( GTK_CONTAINER (encode_box_gauche), encode_bouton_generate);
+    gtk_container_add(GTK_CONTAINER (encode_box_gauche), encode_label);
     
     gtk_container_add( GTK_CONTAINER (encode_box_gauche), encode_entry);
     
+    gtk_container_add( GTK_CONTAINER (encode_box_gauche), encode_bouton_generate);    
+    
     gtk_container_add( GTK_CONTAINER (encode_box_gauche), encode_bouton_retour);
-    
-    gtk_container_add(GTK_CONTAINER (encode_box_gauche), encode_bouton_retour);
-    
-    
-    
     
     //gtk_container_add(GTK_CONTAINER (encode_box_droite), encode_image);
     
@@ -207,7 +217,11 @@ void create_encode()
 	
 	//visuel
 	
-	gtk_widget_set_margin_left(encode_bouton_generate, 50);
+	//gtk_widget_set_margin_top(encode_bouton_retour, 30);
+	gtk_widget_set_margin_left(encode_box_gauche, 50);
+	gtk_widget_set_margin_top(encode_box_gauche, 50);
+	
+	
 	
 	//detection signaux
 	g_signal_connect(encode_bouton_retour,"clicked", G_CALLBACK(encode_retour), NULL);
@@ -219,9 +233,22 @@ void f_decode(){
 	
 	//appler la fct avec le path = path_image
 	
+	if(path_image)
+	{
+	
 	char * text_decode = "mettre ici le text decoder";
 	
 	gtk_label_set_text(GTK_LABEL(decode_text), text_decode );
+	gtk_label_set_selectable(decode_text, 1);
+	}
+	else
+	{
+		char * text_decode = "Veuillez choisir un QR-Code a decoder";
+	
+	gtk_label_set_text(GTK_LABEL(decode_text), text_decode );
+	//gtk_label_set_selectable(decode_text, 1);
+		
+	}
 	
 	
 }
@@ -255,8 +282,6 @@ void create_decode()
     decode_text = gtk_label_new("");
     
     GtkWidget * decode_choose = gtk_button_new_with_label("Choisir un QR-Code a decoder");
-		
-
     
     //ajout des widgets box
     
@@ -269,15 +294,15 @@ void create_decode()
     gtk_container_add( GTK_CONTAINER (decode_box_haut), decode_box_gauche);
     
     gtk_container_add( GTK_CONTAINER (decode_box_haut), decode_box_droite);
-    
-   gtk_container_add( GTK_CONTAINER (decode_box_gauche), decode_bouton_retour);
    
    gtk_container_add( GTK_CONTAINER (decode_box_gauche), decode_choose);
+   
+       gtk_container_add( GTK_CONTAINER (decode_box_gauche), decode_bouton_generate);
+   
+   gtk_container_add( GTK_CONTAINER (decode_box_gauche), decode_bouton_retour);
  
     gtk_container_add( GTK_CONTAINER (decode_box_bas), decode_text);
-    
-    gtk_container_add( GTK_CONTAINER (decode_box_gauche), decode_bouton_generate);
-    
+        
     g_signal_connect(decode_choose, "clicked", G_CALLBACK(choose_file),NULL);
     
 	//detection signaux
@@ -286,6 +311,12 @@ void create_decode()
 	g_signal_connect(decode_bouton_generate,"clicked",G_CALLBACK(f_decode),NULL);
 	
 	gtk_widget_show_all(decode_window);
+	//visuel
+	
+	gtk_widget_set_margin_left(decode_box_gauche, 50);
+	gtk_widget_set_margin_top(decode_box_gauche, 50);
+	gtk_widget_set_margin_top(decode_box_droite, 50);
+	gtk_widget_set_margin_left(decode_box_droite, 50);
 	
 }
 
@@ -324,15 +355,25 @@ void create_generale(GtkApplication * appli)
 	
 	//GtkWidget * generale_box_generale  = g_object_ref(generale_box_generale);
 	
+	// Visuel
 	
+	gtk_widget_set_size_request(generale_bouton_encode, 150,100);
+	gtk_widget_set_margin_start(generale_bouton_decode, 730);
+	gtk_widget_set_margin_end(generale_bouton_encode, 200);
+	gtk_widget_set_margin_top(generale_logo, 80);
+	
+	GdkColor color;
+	color.red = 0xffff;
+	color.green = 0xffff;
+	color.red = 0xffff;
+	
+	gdk_color_parse("#255255255", &color);
+	gtk_widget_modify_bg(generale_window, GTK_STATE_NORMAL, &color);
 	
 	//detection signaux
 	
-	
-	
 	g_signal_connect(generale_bouton_encode,"clicked", G_CALLBACK(create_encode),NULL);
-	
-	
+
 	g_signal_connect(generale_bouton_decode,"clicked", G_CALLBACK(create_decode),NULL);
 	
 	gtk_widget_show_all(generale_window);
