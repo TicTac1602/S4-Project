@@ -7,6 +7,7 @@
 #include <gtk/gtk.h>
 #include "../encode/encode.h"
 
+/*
 struct fct1
 {
     GtkWidget * entry;
@@ -18,6 +19,7 @@ struct fct1
 void generate(GtkButton * button, gpointer data);
 
 void createwindow(GtkApplication * app, gpointer data);
+*/
 
 int app(int argumentcount, char * argument[]);
 
