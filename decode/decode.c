@@ -563,8 +563,7 @@ int main()
     SDL_LockSurface(img);
     find_first_black(img,&start_x,&start_y);
     SDL_UnlockSurface(img);
-    size_t matrix_size = (img->w-(start_x))/res;
-
+    size_t matrix_size = (img->w-(2*start_x))/res;
     //printf("Resolution of a square: %ld\nCoordinates of first black pixel: %d - %d \nSize: %ld \n ",res,start_x,start_y,matrix_size);
 
     char* matrix = malloc(sizeof(char) * matrix_size * matrix_size);
