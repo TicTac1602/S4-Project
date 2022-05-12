@@ -117,10 +117,13 @@ int encode(char* string)
     }
     SDL_SaveBMP(surface, "out.bmp");
     SDL_FreeSurface(surface);
+
     free(matrix);
     free(qr->data);
     free(qr);
     free(final);
+    //free_mask(mask);
+
 
     return 0;
 }

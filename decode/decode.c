@@ -296,7 +296,7 @@ void unMask(int mask)
             if (isData(matrix, x, y))
             {
                 if (mask == 0 && ((y + x) % 2 == 0))
-                    invert(x, x);
+                    invert(x, y);
                 else if (mask == 1 && (y % 2 == 0))
                     invert(x, y);
                 else if (mask == 2 && (x % 3 == 0))
@@ -568,8 +568,12 @@ char* decode()
     return message;
 }
 
-int decode_main(char* path)
+void decode_main(char* path,char* msg)
 {
+
+    if(path == NULL)
+        return;
+
     SDL_Surface* img = load_image(path);
     size_t res = find_resolution(img);
     int start_x,start_y;
@@ -578,9 +582,7 @@ int decode_main(char* path)
     SDL_UnlockSurface(img);
     size_t matrix_size = (img->w-(2*start_x))/res;
     char* matrix = malloc(sizeof(char) * matrix_size * matrix_size);
-    if(matrix == NULL){
-            return 1;
-    }
+    
 
     SDL_Color rgb;
 
@@ -601,12 +603,20 @@ int decode_main(char* path)
     // or
     initWithChar(matrix, matrix_size * matrix_size);
 
-    char* message = decode();
+    
+    char * message2 = decode();
+    msg = strcpy(msg, message2);
 
-    printf("The returned char* is %s \n", message);
+    free(message2);
+
+    printf("The returned char* is %s \n", msg);
+
 
     free(matrix);
+    //free(message);
 
-    return 0;
+
+
 }
+
 

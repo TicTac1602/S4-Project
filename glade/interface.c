@@ -93,9 +93,11 @@ char* choose_file()
 	}
 	gtk_widget_hide(decode_file);
 	gtk_widget_destroy(decode_dialog);
+
+	return path_image;
 	
 	
-}
+	}
 
 
 void create_encode()
@@ -163,14 +165,27 @@ void create_encode()
 }
 
 void f_decode(){
+	//ici ca marche
+
 	
-	char * res = decode_main(path_image);
-	if(res != NULL)
+
+	
+	
+	if(path_image != NULL)
 	{
-		gtk_label_set_text(GTK_LABEL(decode_text), res );
+		char * msg = malloc(sizeof(char)*55);
+		
+		decode_main(path_image, msg);
+
+		printf("RESULTAT = %s \n",msg);
+
+		gtk_label_set_text(GTK_LABEL(decode_text),msg );
 		gtk_label_set_selectable(decode_text, 1);
 		gtk_widget_show_all(decode_window);
+		free(msg);
+		
 	}
+	
 	else
 	{
 		char * text_decode = "Veuillez choisir un QR-Code a decoder";
@@ -178,8 +193,12 @@ void f_decode(){
 	gtk_label_set_text(GTK_LABEL(decode_text), text_decode );
 	gtk_widget_show_all(decode_window);
 	//gtk_label_set_selectable(decode_text, 1);
+	
 		
 	}
+	
+	
+	
 	
 	
 }
