@@ -3,14 +3,7 @@
 #include <math.h>
 #include <err.h>
 #include <string.h>
-#include <SDL2/SDL.h>
-#include <SDL2/SDL_image.h>
 
-#include "../pre-processing/img_operation.h"
-#include "../pre-processing/load.h"
-
-
-#include "variables.h"
 #include "decode.h"
 #include "patterns.h"
 #include "colors.h"
@@ -37,7 +30,7 @@ void initWithChar(char* charMatrix, size_t len)
     {
         matrix[y] = malloc(sizeof(int) * N);
         for (size_t x = 0; x < N; x++)
-            matrix[y][x] = (int)charMatrix[y * N + x] - '0';
+            matrix[y][x] = charMatrix[y * N + x] - '0';
     }
 
     printf("Loading done !\n");
@@ -103,7 +96,6 @@ void freeDecodeAll()
 {
     freeMatrix();
     free(data);
-    free(message);
 }
 
 
@@ -280,7 +272,7 @@ void unMask(int mask)
     {
         for (size_t y = 0; y < N; y++)
         {
-            if (isData(x, y))
+            if (isData(matrix, x, y))
             {
                 if (mask == 0 && ((y + x) % 2 == 0))
                     invert(x, x);
@@ -322,7 +314,7 @@ void extractData(int xDecrement, int startRow)
         printf("yDir = %i\n", yDir);
         */
 
-        if (isData(x,y))
+        if (isData(matrix,x,y))
         {
             // printf("Module can be considered \n");
             data[num_bits++] = '0' + matrix[y][x];
@@ -346,7 +338,7 @@ void extractData(int xDecrement, int startRow)
         y += (xDecrement % 2) ? 0 : yDir;
         x = xInit - xDecrement;
 
-        if (isOutOfBounds(x, y))
+        if (isOutOfBounds(x, y, N))
         {
             yDir = yDir == -1 ? 1 : -1;
             y += yDir;
@@ -355,7 +347,6 @@ void extractData(int xDecrement, int startRow)
             xDecrement = 0;
             x = xInit - xDecrement;
         }
-        
         pause();
     }
 }
@@ -383,7 +374,6 @@ char alphaToChar(char alphaIndex)
 
     if (alphaIndex < 0 && alphaIndex > 44)
         errx(1, "The QrCode had encoded an invalid alphanumeric index : %c", alphaIndex);
-    
     if (0 <= alphaIndex && alphaIndex <= 9)
         return '0' + alphaIndex;
     else if (alphaIndex <= 35)
@@ -393,12 +383,12 @@ char alphaToChar(char alphaIndex)
 }
 
 
-void getFinalMessage()
+char* getFinalMessage()
 {
     // This function convert the Bits Representation "data"
     // into the raw string using the equivalent encode mode used.
 
-    message = malloc(sizeof(char) * (charIndicator + 1));
+    char* message = malloc(sizeof(char) * (charIndicator + 1));
     size_t index = 0;
 
     if (encodingMode == 1)
@@ -471,10 +461,12 @@ void getFinalMessage()
         message[index++] = 0;
     }
     // printf("\n");
+
+    return message;
 }
 
 
-void decode()
+char* decode()
 {
     /*
     ** Knowing the equation N = (((V-1)*4)+21)
@@ -500,7 +492,7 @@ void decode()
 
     printf("Now, if we detect the patterns: \n");
 
-    fillPatterns();
+    fillPatterns(matrix, N, V);
     
     printMatrix();
 
@@ -551,55 +543,26 @@ void decode()
 
     extractData(xDecrement, startRow);
 
-    getFinalMessage();
+    char* message = getFinalMessage();
+
+    freeMatrix();
+    free(data);
+
+    return message;
 }
 
 
 int main()
 {
-    SDL_Surface* img = load_image("out.bmp");
-    size_t res = find_resolution(img);
-    int start_x,start_y;
-    SDL_LockSurface(img);
-    find_first_black(img,&start_x,&start_y);
-    SDL_UnlockSurface(img);
-    size_t matrix_size = (img->w-(2*start_x))/res;
-    //printf("Resolution of a square: %ld\nCoordinates of first black pixel: %d - %d \nSize: %ld \n ",res,start_x,start_y,matrix_size);
-
-    char* matrix = malloc(sizeof(char) * matrix_size * matrix_size);
-    if(matrix == NULL){
-            return 1;
-    }
-
-    SDL_Color rgb;
-
-    for(int i=start_x; i< ((img->w)-start_x);i+=res){
-            for(int j=start_y; j< ((img->h)-start_y);j+=res){
-                    Uint32 data = getpixel(img,i,j);
-                    SDL_GetRGB(data,img->format,&rgb.r,&rgb.g,&rgb.b);
-                    if(rgb.r+rgb.g+rgb.b == 0){
-                            matrix[((j-start_x)/res)*matrix_size + ((i-start_y)/res)]='1';
-                    }
-                    else{
-                            matrix[((j-start_x)/res)*matrix_size + ((i-start_y)/res)]='0';
-                    }
-            }
-    }
-    //print_matrix(matrix,&matrix_size);
-    
-
-    //initWithFile("data/v3.txt");
+    initWithFile("data/v3.txt");
     // or
+    //initWithChar(charMatrix, len);
 
-    initWithChar(matrix, matrix_size * matrix_size);
+    char* message = decode();
 
-    decode();
+    printf("The returned char* is %s \n", message);
 
-    //printf("The returned char* is %s \n", message);
-
-    freeDecodeAll();
-
-    free(matrix);
+    free(message);
 
     return 0;
 }

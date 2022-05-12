@@ -1,6 +1,5 @@
 #include <stdlib.h>
 
-#include "variables.h"
 #include "patterns.h"
 
 
@@ -10,7 +9,7 @@ int TimingPattern = 6;
 int aligmentPattern = 7;
 
 
-void fillFindingPatterns()
+void fillFindingPatterns(int** matrix, size_t N)
 {
     for (size_t x = 0; x < 8; x++)
     {
@@ -24,7 +23,7 @@ void fillFindingPatterns()
 }
 
 
-void fillFormatInformation()
+void fillFormatInformation(int** matrix, size_t N)
 {
     for (size_t i = 0; i < 7; i++)
         matrix[N-1-i][8] = formatInformation;
@@ -43,7 +42,7 @@ void fillFormatInformation()
 }
 
 
-void fillTimingPatterns()
+void fillTimingPatterns(int** matrix, size_t N)
 {
     for (size_t i = 8; i < (N - 8); i++)
     {
@@ -55,7 +54,7 @@ void fillTimingPatterns()
 }
 
 
-void fillAlignmentPatterns()
+void fillAlignmentPatterns(int** matrix, size_t N, size_t V)
 {
     if (V == 1)
         return;
@@ -120,16 +119,16 @@ void fillAlignmentPatterns()
 }
 
 
-void fillPatterns(int x, int y)
+void fillPatterns(int** matrix, size_t N, size_t V)
 {
-    fillFindingPatterns(x, y);
-    fillFormatInformation(x, y);
-    fillTimingPatterns(x, y);
-    fillAlignmentPatterns(x, y);
+    fillFindingPatterns(matrix, N);
+    fillFormatInformation(matrix, N);
+    fillTimingPatterns(matrix, N);
+    fillAlignmentPatterns(matrix, N, V);
 }
 
 
-int isOutOfBounds(int x, int y)
+int isOutOfBounds(int x, int y, size_t N)
 {
     return x < 0 || x >= (int) N || y < 0 || y >= (int) N;
 }
@@ -141,7 +140,7 @@ int isNextToVerticalPattern(int x)
 }
 
 
-int isData(int x, int y)
+int isData(int** matrix, int x, int y)
 {
     return (matrix[y][x] == 1 || matrix[y][x] == 0);
 }
