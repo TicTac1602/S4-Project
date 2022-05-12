@@ -16,6 +16,22 @@
 
 char alphaTable[9] = {' ', '$', '%', '*', '+', '-', '.', '/', ':' };
 
+int **matrix = NULL; //2d matrix that represents the QrCode.
+size_t N = 0; //Matrix size (of a side).
+size_t V = 0; //QrCode version.
+
+size_t encodingMode = 0;
+
+size_t ECC = 0; // Error Correction level
+size_t mask = 0; // Mask of the QrCode
+
+
+size_t dataLength = 0; //Length of the data in bits
+char *data = NULL; // String representing our data in an bit-array form.
+
+
+size_t charIndicatorLength = 0; // Length of the charIndicator in bits
+size_t charIndicator=0; // Length of the message in letter
 
 void initWithChar(char* charMatrix, size_t len)
 {
@@ -552,9 +568,9 @@ char* decode()
     return message;
 }
 
-int main()
+int decode_main(char* path)
 {
-    SDL_Surface* img = load_image("out.bmp");
+    SDL_Surface* img = load_image(path);
     size_t res = find_resolution(img);
     int start_x,start_y;
     SDL_LockSurface(img);
@@ -589,7 +605,6 @@ int main()
 
     printf("The returned char* is %s \n", message);
 
-    free(message);
     free(matrix);
 
     return 0;

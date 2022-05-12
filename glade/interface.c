@@ -1,5 +1,6 @@
 #include "interface.h"
 #include "../encode/encode.h"
+#include "../decode/decode.h"
 
 GtkWidget* encode_window;
 GtkWidget *encode_entry;
@@ -14,77 +15,6 @@ GtkWidget* decode_box_gauche;
 GtkWidget* decode_text;
 char * path_image;
 
-//ancienne version
-
-/*
-void generate(GtkButton * button, gpointer data)
-{
-    printf("Generation du QR code \n");
-    struct fct1 p = *( (struct fct1 *)data);
-    GtkWidget * label = p.label;
-    GtkWidget * entry = p.entry;
-    GtkWidget * encode_image = p.encode_image;
-
-    const char* text = gtk_entry_get_text(GTK_ENTRY(entry));
-
-    char* data_text = (char*)text;
-
-    //appel de encode
-
-    int blabla = encode(data_text);
-    
-
-    gtk_label_set_text(GTK_LABEL(label), "QR-Code genéré !");
-
-    gtk_image_set_from_file(GTK_IMAGE(encode_image), "out.bmp");
-
-}
-
-
-void createwindow(GtkApplication * app, gpointer data)
-{
-
-	/*
-    GtkBuilder * builder = gtk_builder_new_from_file("./glade/interface.glade");
-    if(builder == NULL)
-    {
-        exit(1);
-    }
-    
-
-    //definiton des elements :
-
-    GtkWidget * window = GTK_WIDGET(gtk_builder_get_object(builder,"window"));
-    
-    GtkWidget * button = GTK_WIDGET(gtk_builder_get_object(builder,"button"));
-    
-    GtkWidget * entry = GTK_WIDGET(gtk_builder_get_object(builder,"entry"));
-    
-    GtkWidget * label = GTK_WIDGET(gtk_builder_get_object(builder,"label"));
-
-    GtkWidget * encode_image = GTK_WIDGET(gtk_builder_get_object(builder,"encode_image"));
-    
-    
-
-    //creation de la grille et ajout des widgets a la grille :
-
-    struct fct1 * p = malloc(sizeof(struct fct1));
-    p->entry = entry;
-    p->label = label;
-    p->encode_image = encode_image;
-    
-    
-
-    //recuperations des signaux :
-
-    g_signal_connect(button, "clicked", G_CALLBACK(generate), p);
-
-    gtk_widget_show_all(window);
-
-    gtk_main();
-}
-* 
-*/
 
 void f_encode()
 {
@@ -211,7 +141,10 @@ void create_encode()
 	
 	gtk_container_add(GTK_CONTAINER (encode_window), encode_box_generale);
     
+	g_signal_connect(encode_window,"delete_event",gtk_main_quit,NULL);
+
 	gtk_widget_show_all(encode_window);
+
 	
 	g_signal_connect(encode_bouton_generate,"clicked", G_CALLBACK(f_encode),NULL);
 	
@@ -231,21 +164,19 @@ void create_encode()
 
 void f_decode(){
 	
-	//appler la fct avec le path = path_image
-	
-	if(path_image)
+	char * res = decode_main(path_image);
+	if(res != NULL)
 	{
-	
-	char * text_decode = "mettre ici le text decoder";
-	
-	gtk_label_set_text(GTK_LABEL(decode_text), text_decode );
-	gtk_label_set_selectable(decode_text, 1);
+		gtk_label_set_text(GTK_LABEL(decode_text), res );
+		gtk_label_set_selectable(decode_text, 1);
+		gtk_widget_show_all(decode_window);
 	}
 	else
 	{
 		char * text_decode = "Veuillez choisir un QR-Code a decoder";
 	
 	gtk_label_set_text(GTK_LABEL(decode_text), text_decode );
+	gtk_widget_show_all(decode_window);
 	//gtk_label_set_selectable(decode_text, 1);
 		
 	}
@@ -307,7 +238,7 @@ void create_decode()
     
 	//detection signaux
 	g_signal_connect(decode_bouton_retour,"clicked", G_CALLBACK(decode_retour), NULL);
-	
+	g_signal_connect(decode_window,"delete_event",gtk_main_quit,NULL);
 	g_signal_connect(decode_bouton_generate,"clicked",G_CALLBACK(f_decode),NULL);
 	
 	gtk_widget_show_all(decode_window);
@@ -376,18 +307,13 @@ void create_generale(GtkApplication * appli)
 
 	g_signal_connect(generale_bouton_decode,"clicked", G_CALLBACK(create_decode),NULL);
 	
-	gtk_widget_show_all(generale_window);
-	
-	
-	
+	gtk_widget_show_all(generale_window);	
 }
 
 
 
 int app(int argumentcount, char * argument[])
 {
-	printf("Affichage fenetre \n");
-	
     GtkApplication * app;
     app = gtk_application_new("test.com", G_APPLICATION_FLAGS_NONE);
     g_signal_connect(app, "activate", G_CALLBACK(create_generale), NULL);
@@ -396,8 +322,6 @@ int app(int argumentcount, char * argument[])
 
     g_object_unref(app);
     return status;
-
-
 }
 
 /*
