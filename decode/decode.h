@@ -21,5 +21,6 @@ void getDataLength();
 char alphaToChar(char alphaIndex);
 char* getFinalMessage();
 char* decode();
+void decode_main(char* path,char* msg);
 
 #endif

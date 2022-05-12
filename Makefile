@@ -2,7 +2,7 @@
 CPPFLAGS = `pkg-config --cflags sdl2` -MMD
 CC = gcc
 CFLAGS = `pkg-config --cflags gtk+-3.0` -Wall -Wextra -std=c99 -O2 -g
-LDFLAGS = -fsanitize=address
+#LDFLAGS = -fsanitize=address
 LDLIBS =` pkg-config --libs sdl2 gtk+-3.0` -lSDL2 -lSDL2_image -lm
 
 
