@@ -3,6 +3,11 @@
 #include <math.h>
 #include <err.h>
 #include <string.h>
+#include <SDL2/SDL.h>
+#include <SDL2/SDL_image.h>
+
+#include "../pre-processing/img_operation.h"
+#include "../pre-processing/load.h"
 
 #include "decode.h"
 #include "patterns.h"
@@ -450,18 +455,14 @@ char* getFinalMessage()
         {
             if (i % 8 == 0 && i != 0)
             {
-                // printf("%c", c);
                 message[index++] = c;
                 c = 0;
             }
             c = (c << 1) + (data[i] - '0');
         }
-        // printf("%c\n", c);
         message[index++] = c;
         message[index++] = 0;
     }
-    // printf("\n");
-
     return message;
 }
 
@@ -551,18 +552,46 @@ char* decode()
     return message;
 }
 
-
 int main()
 {
-    initWithFile("data/v3.txt");
+    SDL_Surface* img = load_image("out.bmp");
+    size_t res = find_resolution(img);
+    int start_x,start_y;
+    SDL_LockSurface(img);
+    find_first_black(img,&start_x,&start_y);
+    SDL_UnlockSurface(img);
+    size_t matrix_size = (img->w-(2*start_x))/res;
+    char* matrix = malloc(sizeof(char) * matrix_size * matrix_size);
+    if(matrix == NULL){
+            return 1;
+    }
+
+    SDL_Color rgb;
+
+    for(int i=start_x; i< ((img->w)-start_x);i+=res){
+            for(int j=start_y; j< ((img->h)-start_y);j+=res){
+                    Uint32 data = getpixel(img,i,j);
+                    SDL_GetRGB(data,img->format,&rgb.r,&rgb.g,&rgb.b);
+                    if(rgb.r+rgb.g+rgb.b == 0){
+                            matrix[((j-start_x)/res)*matrix_size + ((i-start_y)/res)]='1';
+                    }
+                    else{
+                            matrix[((j-start_x)/res)*matrix_size + ((i-start_y)/res)]='0';
+                    }
+            }
+    }
+    
+    //initWithFile("data/v3.txt");
     // or
-    //initWithChar(charMatrix, len);
+    initWithChar(matrix, matrix_size * matrix_size);
 
     char* message = decode();
 
     printf("The returned char* is %s \n", message);
 
     free(message);
+    free(matrix);
 
     return 0;
 }
+

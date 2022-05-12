@@ -18,7 +18,6 @@ char *data; // String representing our data in an bit-array form.
 size_t charIndicatorLength; // Length of the charIndicator in bits
 size_t charIndicator; // Length of the message in letters
 
-
 void initFromFile(char *path);
 void initFromChar(char* matrix, size_t len);
 void freeMatrix();
