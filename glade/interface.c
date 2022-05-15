@@ -178,7 +178,7 @@ void f_decode(){
 	
 	if(path_image != NULL)
 	{
-		char * msg = malloc(sizeof(char)*55);
+		char * msg = malloc(sizeof(char)*64);
 		
 		decode_main(path_image, msg);
 

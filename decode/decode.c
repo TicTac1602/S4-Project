@@ -1,6 +1,9 @@
+#define _GNU_SOURCE
+#define _POSIX_C_SOURCE 200809L
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
+#include <unistd.h>
 #include <err.h>
 #include <string.h>
 #include <SDL2/SDL.h>
@@ -12,7 +15,6 @@
 #include "decode.h"
 #include "patterns.h"
 #include "colors.h"
-
 
 char alphaTable[9] = {' ', '$', '%', '*', '+', '-', '.', '/', ':' };
 
@@ -112,15 +114,13 @@ void freeMatrix()
     free(matrix);
 }
 
-
-void freeDecodeAll()
-{
+void freeDecodeAll(){
     freeMatrix();
     free(data);
 }
 
 
-void pause()
+void _pause()
 {
     printf("Press Enter to resume the program. \n");
     int tmp = getchar();
@@ -368,7 +368,7 @@ void extractData(int xDecrement, int startRow)
             xDecrement = 0;
             x = xInit - xDecrement;
         }
-        pause();
+	sleep(0.7);
     }
 }
 
@@ -482,7 +482,37 @@ char* getFinalMessage()
     return message;
 }
 
+void getMessageLength(int maxRow){
+	char *line = NULL;
+	size_t buf_len = 0;
+	size_t nb_block = 0;
+	size_t i = V;
+	FILE *file = fopen("./encode/data_encoding/m_byte_mode", "r");
+    	if (file == NULL)
+        	errx(EXIT_FAILURE, "path doesn't exist");
 
+   	 while (getline(&line, &buf_len, file) >= 0)
+    	{
+        	size_t n1, n2, n3, n4, n5, n6, n7;
+        	sscanf(line, "%zu %zu %zu %zu %zu %zu %zu", &n1, &n2, &n3, &n4, &n5,&n6, &n7);
+		nb_block = n4+n6;
+		if(i==0){
+			break;
+		}
+		else{
+			i--;
+		}
+	}
+	if(V >= 4){
+		int start=dataSquares(N-3, N-1, N-4, N-2);
+		int end = dataSquares(N-(nb_block*4)-1,N-1,N-(nb_block*4)-2,N-2);
+		//printf("Start : %d ,End = %d, Istart = %ld",start,end,nb_block*4);
+		charIndicator = start*16 + end;
+	}
+	else{
+		charIndicator=dataSquares(N-3, N-1, maxRow, N-2);
+	}
+}
 char* decode()
 {
     /*
@@ -499,28 +529,20 @@ char* decode()
     getFormat();
     printf("QrCode has a ECC of %lu, and a mask of %lu.\n", ECC, mask);
 
-    printDebug();
-
-    pause();
-
     printf("The coloured version of this QrCode would be: \n");
     printMatrix();
-    pause();
+    _pause();
 
-    printf("Now, if we detect the patterns: \n");
+    printf("Now we detect the patterns: \n");
 
     fillPatterns(matrix, N, V);
-    
-    printMatrix();
-
-    pause();
 
     printf("Then, we apply the mask (mask %li) \n", mask);
     unMask(mask);
     printf("UnMasking Done !\n");
 
     printMatrix();
-    pause();
+    _pause();
 
     encodingMode = dataSquares(N-1, N-1, N-2, N-2);
     printf("QrCode has an encoding mode of %lu ", encodingMode);
@@ -542,7 +564,7 @@ char* decode()
     
     int maxRow = N - (2 + charIndicatorLength/2);
 
-    charIndicator = dataSquares(N-3, N-1, maxRow, N-2);
+    getMessageLength(maxRow);
 
     if (charIndicatorLength%2 == 1)
         charIndicator = (charIndicatorLength << 1) + matrix[maxRow - 1][N-1];
@@ -555,9 +577,6 @@ char* decode()
 
     int startRow = N - (3 + charIndicatorLength/2);
     int xDecrement = (charIndicatorLength % 2);
-
-    pause();
-
     extractData(xDecrement, startRow);
 
     char* message = getFinalMessage();
@@ -609,11 +628,7 @@ void decode_main(char* path,char* msg)
 
     free(message2);
 
-    printf("The returned char* is %s \n", msg);
-
-
     free(matrix);
-    //free(message);
 
 
 
